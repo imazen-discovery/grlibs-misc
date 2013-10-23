@@ -29,9 +29,6 @@ fi
 [ -d tmp-images ] || mkdir tmp-images
 cd tmp-images/
 
-[ -d shrunk ] || mkdir shrunk
-cd shrunk/
-
 echo "Fetching original images."
 for img in $FILES; do
     if [ -f $img ]; then
@@ -40,6 +37,9 @@ for img in $FILES; do
         wget "$FS_URL/$img"
     fi
 done
+
+[ -d shrunk ] || mkdir shrunk
+cd shrunk/
 
 echo "Fetching shrunk images."
 for w in $WIDTHS; do
