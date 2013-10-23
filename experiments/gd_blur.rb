@@ -7,7 +7,7 @@ require 'gd2-ffij'
 include GD2
 
 
-im = Image.import("tmp-images/shrunk/640/8s.png")
+im = Image.import(ARGV[0])
 im.gaussian_blur!
 im.export("blurry.png")
 
