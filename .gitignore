@@ -1,0 +1,23 @@
+# C stuff
+*.o
+core
+TAGS
+
+# Python
+*.pyc
+
+# Vagrant stuff
+.vagrant
+
+# Process temp. files
+BUILD_DIR
+NUM_CORES
+
+# Leftover image files:
+*.tiff
+*.png
+*.gif
+*.jpg
+
+
+
