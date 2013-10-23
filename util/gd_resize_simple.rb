@@ -42,7 +42,7 @@ MODES = {
 
 
 
-def shrink(imgfile, width, height, output, truecolor, modeName, blur)
+def shrink(imgfile, width, height, output, truecolor, modeName, blur, sharpenPct)
   mode = MODES[modeName]
   raise "Invalid mode '#{modeName}'." unless mode
 
@@ -70,7 +70,9 @@ def shrink(imgfile, width, height, output, truecolor, modeName, blur)
   
   result = im.resizeInterpolated(width, height)
 
-  moveOldFile(output)
+  if sharpenPct > 0
+    result.sharpen(sharpenPct)
+  end
 
   opts = {}
   case File.extname(output).downcase.to_sym
@@ -80,6 +82,7 @@ def shrink(imgfile, width, height, output, truecolor, modeName, blur)
     # ... more goes here, maybe ...
   end
 
+  moveOldFile(output)
   result.export(output, opts)
 end
 
@@ -107,6 +110,7 @@ def main
   truecolor = false
   mode = 'bicubic'
   blur = false
+  sharpenPct = 0
 
   OptionParser.new do |opts|
     opts.banner =
@@ -131,6 +135,14 @@ def main
     opts.on('--blur', "Pre-filter image with a gaussian blur.") { |im|
       blur = true
     }
+
+    opts.on('--sharpen PERCENT', Float, "Sharpen the resulting image.") { |im|
+      sharpenPct = im.round
+      if sharpenPct <= 0
+        puts "Invalid sharpen percentage: #{sharpenPct}"
+        exit 1
+      end
+    }
   end.parse!
 
   if ARGV.size != 4
@@ -146,7 +158,7 @@ def main
 
   h = ARGV[2].to_i      # <= 0 means compute from width
 
-  shrink ARGV[0], w, h, ARGV[3], truecolor, mode, blur
+  shrink ARGV[0], w, h, ARGV[3], truecolor, mode, blur, sharpenPct
 end
 
 
