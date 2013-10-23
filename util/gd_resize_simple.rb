@@ -53,6 +53,11 @@ def shrink(imgfile, width, height, output, truecolor, modeName, blur)
     im = im.to_true_color()
   end
 
+  # Blur the image if requested
+  if blur
+    im.gaussian_blur!
+  end
+
   # Zero or invalid height means preserve aspect ratio
   height = ( (im.height * width.to_f) / im.width ).round if height <= 0
 
@@ -100,16 +105,20 @@ end
 
 def main
   truecolor = false
-  mode = 'bicubic' #GD_BILINEAR_FIXED
+  mode = 'bicubic'
   blur = false
 
   OptionParser.new do |opts|
-    opts.banner = "Usage: #{__FILE__} <filename> <width> ..."
+    opts.banner =
+      "Usage: #{__FILE__} <ifile> <width> [<height>|'-'] <ofile>..."
+
+
     opts.on('--force-truecolor', "Force input images to truecolor.") {
       truecolor = true
     }
 
-    opts.on('--interp MODE', "Use interpolation mode 'MODE'.") { |im|
+    opts.on('--interp MODE', '--mode MODE', 
+            "Use interpolation mode 'MODE'.") { |im|
       raise "Unknown interpolation mode '#{im}'" unless MODES.has_key?(im)
       mode = im
     }
