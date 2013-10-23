@@ -42,7 +42,7 @@ MODES = {
 
 
 
-def shrink(imgfile, width, height, output, truecolor, modeName)
+def shrink(imgfile, width, height, output, truecolor, modeName, blur)
   mode = MODES[modeName]
   raise "Invalid mode '#{modeName}'." unless mode
 
@@ -101,6 +101,7 @@ end
 def main
   truecolor = false
   mode = 'bicubic' #GD_BILINEAR_FIXED
+  blur = false
 
   OptionParser.new do |opts|
     opts.banner = "Usage: #{__FILE__} <filename> <width> ..."
@@ -117,6 +118,10 @@ def main
       print MODES.keys.sort.join("\n"), "\n"
       exit 0
     }
+
+    opts.on('--blur', "Pre-filter image with a gaussian blur.") { |im|
+      blur = true
+    }
   end.parse!
 
   if ARGV.size != 4
@@ -132,7 +137,7 @@ def main
 
   h = ARGV[2].to_i      # <= 0 means compute from width
 
-  shrink ARGV[0], w, h, ARGV[3], truecolor, mode
+  shrink ARGV[0], w, h, ARGV[3], truecolor, mode, blur
 end
 
 
