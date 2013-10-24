@@ -9,7 +9,5 @@ include GD2
 
 im = Image.import(ARGV[0])
 im.gaussian_blur!
-im.export("blurry.png")
-
-
+im.export("blurry-img.png")
 
