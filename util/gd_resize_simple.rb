@@ -83,6 +83,7 @@ def shrink(imgfile, width, height, output, truecolor, modeName, blur, sharpenPct
   end
 
   moveOldFile(output)
+  result.save_alpha = true  # this is off by default
   result.export(output, opts)
 end
 
