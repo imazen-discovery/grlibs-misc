@@ -107,13 +107,15 @@ int
 main(int argc, char *argv[]) {
     char *ifile, *ofile;
     int radius;
+    double sigma;
     gdImagePtr im, result;
 
-    check(argc == 4, "USAGE: blur <input> <radius> <output>");
+    check(argc == 5, "USAGE: blur <input> <radius> <sigma> <output>");
 
     ifile = argv[1];
     radius = atoi(argv[2]);
-    ofile = argv[3];
+    sigma = atof(argv[3]);
+    ofile = argv[4];
 
     check(radius > 0, "Invalid radius.");
 
@@ -121,7 +123,7 @@ main(int argc, char *argv[]) {
     im = load(ifile);
 
     printf("Blurring...\n");
-    result = gdImageGaussianBlur2(im, radius);
+    result = gdImageGaussianBlur2(im, radius, sigma);
     check(!!result, "Gaussian blur failed.");
 
     printf("Saving...\n");
