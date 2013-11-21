@@ -55,7 +55,7 @@ save(gdImagePtr im, const char *template, enum FType type) {
     }/* for */
     check(!!ext, "Unknown file extension type: %d", type);
     
-    snprintf(oname, sizeof(oname), "%s.%s", template, ext);
+    snprintf(oname, sizeof(oname), "%s%s", template, ext);
 
     out = fopen(oname, "wb");
     check(!!out, "Unable to open '%s' for writing.", oname);
