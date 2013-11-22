@@ -117,14 +117,22 @@ main(int argc, char *argv[]) {
     sigma = atof(argv[3]);
     ofile = argv[4];
 
-    check(radius > 0, "Invalid radius.");
+    //check(radius > 0, "Invalid radius.");
 
     printf("Loading...\n");
     im = load(ifile);
 
     printf("Blurring...\n");
-    result = gdImageGaussianBlur2(im, radius, sigma);
-    check(!!result, "Gaussian blur failed.");
+
+    if (radius <= 0) {
+        printf("Using old blur...\n");
+        check(gdImageGaussianBlur(im), "gdImageGaussianBlur() failed!");
+        result = im;
+    } else {
+        printf("Using new blur...\n");
+        result = gdImageGaussianBlur2(im, radius, sigma);
+        check(!!result, "Gaussian blur failed.");
+    }
 
     printf("Saving...\n");
     save(result, ofile, ftype(ifile));
