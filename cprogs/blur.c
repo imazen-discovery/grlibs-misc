@@ -7,6 +7,7 @@
 #include <gd.h>
 
 #include "util.h"
+#include "timer.h"
 
 enum FType {UNKNOWN, PNG, JPG, GIF, TIFF};
 struct {
@@ -126,16 +127,26 @@ main(int argc, char *argv[]) {
 
     if (radius <= 0) {
         printf("Using old blur...\n");
+
+        timer_start("", "old-blur");
         check(gdImageGaussianBlur(im), "gdImageGaussianBlur() failed!");
+        timer_done();
+
         result = im;
     } else {
         printf("Using new blur...\n");
+
+        timer_start("", "new-blur");
         result = gdImageGaussianBlur2(im, radius, sigma);
+        timer_done();
+
         check(!!result, "Gaussian blur failed.");
     }
 
     printf("Saving...\n");
     save(result, ofile, ftype(ifile));
+
+    print_times();
 
     return 0;
 }/* main*/

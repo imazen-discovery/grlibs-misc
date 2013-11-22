@@ -12,6 +12,7 @@ include GD2
 # Add path to local modules
 proc {
   $LOAD_PATH.unshift(File.dirname(__FILE__))
+#  $LOAD_PATH.uhshift(
 }.call()
 
 

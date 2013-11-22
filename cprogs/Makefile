@@ -9,12 +9,13 @@ GDLIBS=`pkg-config gdlib --libs` -lm -lrt
 
 all: blur
 
-blur: blur.o util.o
+blur: blur.o util.o timer.o
 	$(LD) $(LDFLAGS) -o $@ $^ $(GDLIBS)
 
 
+timer.o: timer.c timer.h
 util.o: util.c util.h
-blur.o: util.h
+blur.o: util.h timer.h
 
 clean:
 	-rm *.o blur
