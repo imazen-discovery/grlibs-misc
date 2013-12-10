@@ -137,7 +137,7 @@ main(int argc, char *argv[]) {
         printf("Using new blur...\n");
 
         timer_start("", "new-blur");
-        result = gdImageGaussianBlur2(im, radius, sigma);
+        result = gdImageCopyGaussianBlurred(im, radius, sigma);
         timer_done();
 
         check(!!result, "Gaussian blur failed.");
