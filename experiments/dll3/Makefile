@@ -27,5 +27,5 @@ gcd.o : gcd.c
 wrap.o : wrap.c
 
 clean:
-	-rm *.$(SO) *.o *.dll *.exe
+	-rm *.o *.$(SO) *.exe
 
