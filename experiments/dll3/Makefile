@@ -14,18 +14,18 @@ LIBS= #-lgd -L ../../../gd-libgd/src/ # -lc -lgd
 #-Wl,--out-implib,libexample_dll.a
 .SUFFIXES: .dll .exe
 
-runme.exe: runme.cs $(LIBPF)gcd.$(SO) $(LIBPF)wrap.$(SO)
+runme.exe: runme.cs $(LIBPF)mygd.$(SO) $(LIBPF)wrap.$(SO)
 	$(MCS) runme.cs
 
-$(LIBPF)gcd.$(SO) : gcd.o
-	$(LD) -shared -Wl,-soname,gcd.$(SO),--out-implib,libgcd.a -o $(LIBPF)gcd.$(SO) gcd.o $(LIBS)
+$(LIBPF)mygd.$(SO) : mygd.o
+	$(LD) -shared -Wl,-soname,mygd.$(SO),--out-implib,libmygd.a -o $(LIBPF)mygd.$(SO) mygd.o $(LIBS)
 
-$(LIBPF)wrap.$(SO) : wrap.o $(LIBPF)gcd.$(SO)
-	$(LD) -shared -Wl,-soname,wrap.$(SO) -o $(LIBPF)wrap.$(SO) wrap.o -L . $(LIBS) -lgcd
+$(LIBPF)wrap.$(SO) : wrap.o $(LIBPF)mygd.$(SO)
+	$(LD) -shared -Wl,-soname,wrap.$(SO) -o $(LIBPF)wrap.$(SO) wrap.o -L . $(LIBS) -lmygd
 
-gcd.o : gcd.c
+mygd.o : mygd.c
 wrap.o : wrap.c
 
 clean:
-	-rm *.o *.$(SO) *.exe
+	-rm *.o *.$(SO) *.exe *.a
 

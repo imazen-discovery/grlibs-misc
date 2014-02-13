@@ -1,12 +1,12 @@
 
 #include <stdio.h>
 
-extern int gcd(int x, int y);
+#include "mygd.h"
 
-int wrap_gcd(int x, int y) {
-    fprintf(stdout, "wrap_gcd() called.\n");
+int wrap_gdMajorVersion() {
+    fprintf(stdout, "wrap_gdMajorVersion() called.\n");
     fflush(stdout);
-    return gcd(x, y);
+    return gdMajorVersion();
 }
 
 
