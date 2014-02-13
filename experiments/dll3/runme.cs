@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 public class runme
 {
-  [DllImport("gcd.dll", EntryPoint="gcd")]
+  [DllImport("wrap.dll", EntryPoint="wrap_gcd")]
   public static extern int gcd(int a, int b);
 
   static void Main() 

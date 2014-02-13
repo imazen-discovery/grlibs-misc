@@ -8,23 +8,20 @@ CC=gcc
 CFLAGS=-I$(GDPATH) $(CF_EXTRA)
 
 LD=gcc
-LDFLAGS=-shared -Wl,-soname,gcd.$(SO)
+LDFLAGS=
 LIBS= #-lgd -L ../../../gd-libgd/src/ # -lc -lgd
 
-SWIG=swig
-SWIGFLAGS=-v -Wall -I$(GDPATH) -dllimport $(LIBPF)gcd.$(SO) \
-	-namespace GD.Internal -noproxy
-
+#-Wl,--out-implib,libexample_dll.a
 .SUFFIXES: .dll .exe
 
-runme.exe: runme.cs $(LIBPF)gcd.$(SO)
+runme.exe: runme.cs $(LIBPF)gcd.$(SO) $(LIBPF)wrap.$(SO)
 	$(MCS) runme.cs
 
 $(LIBPF)gcd.$(SO) : gcd.o
-	$(LD) $(LDFLAGS) -o $(LIBPF)gcd.$(SO) gcd.o $(LIBS)
+	$(LD) -shared -Wl,-soname,gcd.$(SO),--out-implib,libgcd.a -o $(LIBPF)gcd.$(SO) gcd.o $(LIBS)
 
-$(LIBPF)wrap.$(SO) : wrap.o
-	$(LD) $(LDFLAGS) -o $(LIBPF)wrap.$(SO) wrap.o $(LIBS)
+$(LIBPF)wrap.$(SO) : wrap.o $(LIBPF)gcd.$(SO)
+	$(LD) -shared -Wl,-soname,wrap.$(SO) -o $(LIBPF)wrap.$(SO) wrap.o -L . $(LIBS) -lgcd
 
 gcd.o : gcd.c
 wrap.o : wrap.c
