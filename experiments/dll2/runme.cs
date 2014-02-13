@@ -3,16 +3,13 @@ using System.Runtime.InteropServices;
 
 public class runme
 {
-  [DllImport("gcd.dll", EntryPoint="gcd")]
-  public static extern int gcd(int a, int b);
+  [DllImport("wrap.dll", EntryPoint="wrap_gdMajorVersion")]
+  public static extern int gdMajorVersion();
 
   static void Main() 
   {
     // Call our gcd() function
 
-    int x = 42;
-    int y = 105;
-    int g = gcd(x,y);
-    Console.WriteLine("The gcd of " + x + " and " + y + " is " + g);
+    Console.WriteLine("The version string is '" + gdMajorVersion() + "'");
   }
 }

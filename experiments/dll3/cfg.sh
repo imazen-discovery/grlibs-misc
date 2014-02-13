@@ -20,7 +20,7 @@ MONO_MCS='dmcs -sdk:4'
 
 # Path (relative to the location of this script) of the directory
 # containing the GD source tree we're using.
-GD_DIR=../../../gd-libgd/
+GD_DIR=../gd-libgd/
 
 # ---------------------------------------------------------------------------
 

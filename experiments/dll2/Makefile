@@ -3,28 +3,29 @@ SO			:= $(shell ./cfg.sh sharedobjext)
 CF_EXTRA	:= $(shell ./cfg.sh cflags)
 MCS			:= $(shell ./cfg.sh compiler)
 LIBPF		:= $(shell ./cfg.sh lib)
+GDPATH		:= $(shell ./cfg.sh gdpath)
 
 CC=gcc
-CFLAGS=-I$(GDPATH) $(CF_EXTRA)
+CFLAGS=-I$(GDPATH)/src/ $(CF_EXTRA)
 
 LD=gcc
-LDFLAGS=-shared -Wl,-soname,gcd.$(SO)
-LIBS= -lgd -L ../../../gd-libgd/src/ # -lc -lgd
+LDFLAGS=-shared -Wl,-soname,wrap.$(SO)
+LIBS= -lgd -L .
 
 SWIG=swig
-SWIGFLAGS=-v -Wall -I$(GDPATH) -dllimport $(LIBPF)gcd.$(SO) \
+SWIGFLAGS=-v -Wall -I$(GDPATH) -dllimport $(LIBPF)wrap.$(SO) \
 	-namespace GD.Internal -noproxy
 
 .SUFFIXES: .dll .exe
 
-runme.exe: runme.cs $(LIBPF)gcd.$(SO)
+runme.exe: runme.cs $(LIBPF)wrap.$(SO)
 	$(MCS) runme.cs
 
-$(LIBPF)gcd.$(SO) : gcd.o
-	$(LD) $(LDFLAGS) -o $(LIBPF)gcd.$(SO) gcd.o $(LIBS)
+$(LIBPF)wrap.$(SO) : wrap.o
+	$(LD) $(LDFLAGS) -o $(LIBPF)wrap.$(SO) wrap.o #$(LIBS)
 
-gcd.o : gcd.c
+wrap.o : wrap.c
 
 clean:
-	-rm *.$(SO) *.o *.dll *.exe
+	-rm *.o wrap.dll *.exe
 
